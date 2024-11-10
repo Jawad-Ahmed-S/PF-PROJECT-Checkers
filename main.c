@@ -1,9 +1,9 @@
 #include <stdio.h>
 int turn = 0;
 void PrintArray(char[8][8]);
-void initialPositions(char gameboard[8][8]);
+void initialPositions(char[8][8]);
 char Playerturn();
-void Movement(char gameBoard[8][8]);
+void Movement(char[8][8]);
 int main()
 {
     char gameBoard[8][8];
