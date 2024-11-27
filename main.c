@@ -229,6 +229,11 @@ int moveValid(int index, struct position move) //returns -1 if invalid, -2 if mo
             tmp.x += move.x;
             tmp.y += move.y;
 
+            //check if out of bounds
+            if (tmp.x > 7 || tmp.x < 0 || tmp.y > 7 || tmp.y < 0)
+            {   
+                return -1;
+            }
 
             //checks if square to jump to also occupied
             for (int i = 0; i < 24; i++)
