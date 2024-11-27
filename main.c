@@ -21,26 +21,29 @@ struct piece
     bool captured;
 } pieces[24];
 
+//sets initial positions and piece colors
+void intializeValues(char[8][8]);
+
 //prints array each turn
 void printArray(char[8][8]);
 
-//sets initial positions and piece colors
-void intializeValues(char[8][8]);
+//takes input and manages movement of pieces for each turn
+void movement();
 
 //updates array after each move
 void updateArray(char[8][8]);
 
-//manages movement of pieces for each turn
-void movement();
-
-//checks if piece at selected position
+//checks if piece at selected position and if piece mobile
 int selectionValid (struct position);
 
-//determines type of move: (normal)move, capture, or no move
+//determines type of move: (normal) move, capture, or no move
 int moveValid(int, struct position);
 
 //translates keyboard inputs (chars) to changes in position
 struct position translateMove (char);
+
+//checks if any player has won
+//int won ();
 
 //flips curr_turn
 void changeTurn ();
@@ -54,7 +57,11 @@ int main()
     
     while (true)
     {
-        //win checking function called here (must be first so can identify if current_turn cannot move and hence, loses)
+        /*if (won())
+        {
+            break;
+        }*/
+
         movement();
         updateArray(gameBoard);
         printArray(gameBoard);
@@ -105,13 +112,6 @@ void movement()
     {
         pieces[piece].position.x += move_vals.x;
         pieces[piece].position.y += move_vals.y;
-
-        //check if king
-        if ((pieces[piece].position.y == 0 && pieces[piece].color == 'W') || (pieces[piece].position.y == 7 && pieces[piece].color == 'B'))
-        {
-            //king is when piece from one side is on the other side
-            pieces[piece].king = true;
-        }
     }
 
     //capture piece
@@ -123,6 +123,21 @@ void movement()
         //change position of selected piece (jump)
         pieces[piece].position.x += (move_vals.x * 2);
         pieces[piece].position.y += (move_vals.y * 2);
+    }
+
+    //check if king
+    if ((pieces[piece].position.y == 0 && pieces[piece].color == 'W') || (pieces[piece].position.y == 7 && pieces[piece].color == 'B'))
+    {
+        //king is when piece from one side is on the other side
+        pieces[piece].king = true;
+
+        if (pieces[piece].color == 'W')
+        pieces[piece].color = 'K'; //king if white
+
+        else
+        pieces[piece].color = 'Q'; //queen if black
+
+        //king and queen function exactly the same. distinction made due to display limitations
     }
 
     changeTurn();
@@ -371,3 +386,45 @@ void intializeValues(char gameboard[8][8])
         }
     }
 }
+
+//to complete (not working rn)
+/*
+int won ()
+{
+    bool blackStuck = true;//if stalemate, curr_turn loses
+
+    for (int i = 0; i < 12; i++)
+    {
+        if (selectionValid(pieces[i].position) != -1)
+        {
+            blackStuck = false; //first 12 are black, if any can move AND is not captured, blackStuck = false
+            break;
+        }
+    }
+
+    for (int i = 12; i < 24; i++)
+    {
+        if (selectionValid(pieces[i].position) != -1)
+        {
+            if (!blackStuck)
+            return 0;
+
+            else
+            printf("W wins");
+            return 1;
+        }
+    }
+
+    //reach this point only if white invalid for all
+    if (blackStuck)
+    {
+        changeTurn(); //other player wins
+        printf("%c wins\n", curr_turn);
+        return 1;
+    }
+
+    else
+    printf("B wins");
+    return 1;
+}
+*/
