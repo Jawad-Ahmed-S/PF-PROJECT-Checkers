@@ -107,7 +107,7 @@ void movement()
         pieces[piece].position.y += move_vals.y;
 
         //check if king
-        if ((pieces[piece].position.y == 7 && pieces[piece].color == 'W') || (pieces[piece].position.y == 0 && pieces[piece].color == 'B'))
+        if ((pieces[piece].position.y == 0 && pieces[piece].color == 'W') || (pieces[piece].position.y == 7 && pieces[piece].color == 'B'))
         {
             //king is when piece from one side is on the other side
             pieces[piece].king = true;
@@ -171,7 +171,6 @@ int selectionValid (struct position selection) //returns -1 if invalid, index of
 
                     else
                     {
-                        printf("haha\n");
                         return -1;
                     }
                 }
