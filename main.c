@@ -64,7 +64,7 @@ int main()
 void movement()
 {
     struct position selection; //input var for selection
-    struct position move_vals; //var for storing return value of translate_move
+    struct position move_vals; //(move values) var for storing return value of translate_move
     char input_move; //input var for move, takes char
     int piece; //stores selected piece index for pieces[] array
     int what_move; //move, no move, or captured (to be) piece index
@@ -171,6 +171,7 @@ int selectionValid (struct position selection) //returns -1 if invalid, index of
 
                     else
                     {
+                        printf("haha\n");
                         return -1;
                     }
                 }
@@ -235,7 +236,7 @@ int moveValid(int index, struct position move) //returns -1 if invalid, -2 if mo
                 return -1;
             }
 
-            //checks if square to jump to also occupied
+            //check if square to jump to also occupied
             for (int i = 0; i < 24; i++)
             {
                 //if piece captured, cannot occupy square, move on
@@ -244,15 +245,11 @@ int moveValid(int index, struct position move) //returns -1 if invalid, -2 if mo
                     continue;
                 }
 
-                //check only pieces that belong to current turn
-                if (pieces[i].color == curr_turn)
+                if (pieces[i].position.x == tmp.x && pieces[i].position.y == tmp.y)
                 {
-                    if (pieces[i].position.x == tmp.x && pieces[i].position.y == tmp.y)
-                    {
-                        //collision with piece, cannot capture
-                        return -1;
-                    } 
-                }
+                    //collision with piece, cannot capture
+                    return -1;
+                } 
             }
             //if no collision, can capture
             return maybe_capture;
