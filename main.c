@@ -3,8 +3,6 @@
 
 //tracks current turn
 char curr_turn = 'W'; //'W' or 'B'
-int turn_move = 1; //used to change values of movement according to curr_turn 
-char gameBoard[8][8];
 
 //position struct
 struct position
@@ -49,6 +47,7 @@ void changeTurn ();
 
 int main()
 {
+    char gameBoard[8][8];
     intializeValues(gameBoard);
     updateArray(gameBoard);
     printArray(gameBoard);
@@ -140,8 +139,6 @@ void changeTurn ()
     {
         curr_turn = 'W';
     }
-
-    turn_move *= -1;
 }
 
 int selectionValid (struct position selection) //returns -1 if invalid, index of selected if valid
