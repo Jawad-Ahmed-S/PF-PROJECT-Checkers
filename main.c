@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include<windows.h>
+
 //tracks current turn
 char curr_turn = 'W'; //'W' or 'B'
 
