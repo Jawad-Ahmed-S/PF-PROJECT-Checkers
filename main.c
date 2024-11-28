@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-
+#include<windows.h>
 //tracks current turn
 char curr_turn = 'W'; //'W' or 'B'
 
@@ -310,6 +310,7 @@ struct position translateMove (char move)
 
 void updateArray(char gameBoard[8][8])
 {
+    system("cls");
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
