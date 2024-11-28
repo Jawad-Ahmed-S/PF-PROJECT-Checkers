@@ -3,7 +3,7 @@
 #include<windows.h>
 
 //tracks current turn
-char curr_turn = 'W'; //'W' or 'B'
+char curr_turn[2] = {'W', 'K'}; //'W' or 'B'
 
 //position struct
 struct position
@@ -147,14 +147,16 @@ void movement()
 
 void changeTurn ()
 {
-    if (curr_turn == 'W')
+    if (curr_turn[0] == 'W')
     {
-        curr_turn = 'B';
+        curr_turn[0] = 'B';
+        curr_turn[1] = 'Q';
     }
 
     else
     {
-        curr_turn = 'W';
+        curr_turn[0] = 'W';
+        curr_turn[1] = 'K';
     }
 }
 
@@ -170,7 +172,7 @@ int selectionValid (struct position selection) //returns -1 if invalid, index of
         }
 
         //check only pieces that belong to current turn
-        if (pieces[i].color == curr_turn)
+        if (pieces[i].color == curr_turn[0] || pieces[i].color == curr_turn[1])
         {
             
             //true if position of piece same as selected
@@ -182,13 +184,14 @@ int selectionValid (struct position selection) //returns -1 if invalid, index of
                     {
                         if (moveValid(i, translateMove('z')) == -1 && moveValid(i, translateMove('c')) == -1)
                         {
-                            printf("king blocked\n");
                             return -1;
                         }
                     }
 
-                    
-                    return -1;
+                    else
+                    {
+                        return -1;
+                    }
                 }
 
                 return i;
@@ -227,7 +230,7 @@ int moveValid(int index, struct position move) //returns -1 if invalid, -2 if mo
 
         if (pieces[i].position.x == tmp.x && pieces[i].position.y == tmp.y)
         {
-            if (pieces[i].color != curr_turn)
+            if (pieces[i].color != curr_turn[0])
             {
                 maybe_capture = i;
             }
@@ -301,7 +304,7 @@ struct position translateMove (char move)
         re.y = 1;
     }
 
-    if (curr_turn == 'B')
+    if (curr_turn[0] == 'B')
     {
         re.y *= -1;
     }
@@ -350,7 +353,7 @@ void printArray(char gameBoard[8][8])
     }
 
     //which turn?
-    printf("%c playing...\n", curr_turn);
+    printf("%c playing...\n", curr_turn[0]);
 }
 
 void intializeValues(char gameboard[8][8])
