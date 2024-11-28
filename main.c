@@ -43,7 +43,7 @@ int moveValid(int, struct position);
 struct position translateMove (char);
 
 //checks if any player has won
-//int won ();
+int won ();
 
 //flips curr_turn
 void changeTurn ();
@@ -57,10 +57,10 @@ int main()
     
     while (true)
     {
-        /*if (won())
+        if (won())
         {
             break;
-        }*/
+        }
 
         movement();
         updateArray(gameBoard);
@@ -80,6 +80,7 @@ void movement()
     {
         printf("select piece (row col): ");
         scanf("%d %d", &selection.y, &selection.x);
+
         piece = selectionValid(selection);
 
         //repeat until selection valid   
@@ -180,14 +181,13 @@ int selectionValid (struct position selection) //returns -1 if invalid, index of
                     {
                         if (moveValid(i, translateMove('z')) == -1 && moveValid(i, translateMove('c')) == -1)
                         {
+                            printf("king blocked\n");
                             return -1;
                         }
                     }
 
-                    else
-                    {
-                        return -1;
-                    }
+                    
+                    return -1;
                 }
 
                 return i;
@@ -348,7 +348,7 @@ void printArray(char gameBoard[8][8])
     }
 
     //which turn?
-    printf("%c playing\n", curr_turn);
+    printf("%c playing...\n", curr_turn);
 }
 
 void intializeValues(char gameboard[8][8])
@@ -388,43 +388,35 @@ void intializeValues(char gameboard[8][8])
 }
 
 //to complete (not working rn)
-/*
+
 int won ()
 {
-    bool blackStuck = true;//if stalemate, curr_turn loses
+    int countW = 0, countB = 0;
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 24; i++)
     {
-        if (selectionValid(pieces[i].position) != -1)
+        if (pieces[i].captured)
         {
-            blackStuck = false; //first 12 are black, if any can move AND is not captured, blackStuck = false
-            break;
-        }
-    }
-
-    for (int i = 12; i < 24; i++)
-    {
-        if (selectionValid(pieces[i].position) != -1)
-        {
-            if (!blackStuck)
-            return 0;
+            if (pieces[i].color == 'W')
+            countW++;
 
             else
-            printf("W wins");
-            return 1;
+            countB++;
         }
     }
 
-    //reach this point only if white invalid for all
-    if (blackStuck)
+    if (countW == 12)
     {
-        changeTurn(); //other player wins
-        printf("%c wins\n", curr_turn);
+        printf("Black Wins!\n");
         return 1;
     }
+    
+    if (countB == 12)
+    {
+        printf("White Wins!\n");
+        return 1;    
+    }
 
-    else
-    printf("B wins");
-    return 1;
+    return 0;
 }
-*/
+
