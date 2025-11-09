@@ -7,7 +7,9 @@ fileError BYTE "Error: Could not open file!", 0
 ReminderReached BYTE "Reminder! ",0
 pressAnyKeyMsg BYTE "Press any key to return to main menu....",0
 
-
+reminderAdded byte "Reminder Added!",0
+LoadNextReminder byte "Next reminder",0
+ReminderReachedMSG byte "Reminder has been reached",0
 menuText BYTE "1. Add Reminder",13,10,
               "2. View Next Reminder",13,10,
               "3. Reminder Reached",13,10,
@@ -170,9 +172,13 @@ LOAD_REMINDER proc
 
     returning:
     call crlf
+    mov edx,offset loadnextReminder
+    call writestring
+    call crlf
     mov edx, OFFSET pressAnyKeyMsg
     call WriteString
     call ReadChar   
+
     ret
 
 
@@ -289,6 +295,10 @@ save_open_failed:
 
 
     returning:
+    
+    call crlf
+    mov edx,offset reminderadded
+    call writestring
     call crlf
     mov edx, OFFSET pressAnyKeyMsg
     call WriteString
@@ -316,9 +326,12 @@ NEXT_REMINDER PROC
     INVOKE CloseHandle,ebx
 
     call CLEAR_REGS 
-    call LOAD_REMINDER
 
     returning:
+    
+    call crlf
+    mov edx,offset ReminderReachedMSG
+    call writestring
     call crlf
     mov edx, OFFSET pressAnyKeyMsg
     call WriteString
