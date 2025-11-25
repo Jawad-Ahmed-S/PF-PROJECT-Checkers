@@ -1,9 +1,9 @@
 INCLUDE Irvine32.inc
-
+; do use "USES" in all procs.
 typEntry struc
     date db 0
     month db 0
-    year db 0
+    year db 0 ;change to word make necessary adjustments
     hour db 0
     min db 0
     second db 0
@@ -398,7 +398,7 @@ CONSOLE_TO_OBJ ;takes input from console to populate typEntry Obj in esi
 
     ret
 CONSOLE_TO_OBJ ENDP
-
+;rewrite this procedure do include date and time comparisons seprately. 
 IS_GREATER PROC ;compares 2 obj(args) of type typEntry loads 1 into eax if arg1 greater or equal else 0
     
     cmp [esi].date, [edi].date
@@ -514,5 +514,6 @@ skipCheck:
 ret
 
 COMPARE_TIME endp
+
 
 END main
